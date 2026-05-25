@@ -1,3 +1,484 @@
-<html>
-    hogehoge
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarou Hongo — Computer Vision Researcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a24;
+      --border: rgba(255,255,255,0.07);
+      --accent: #7c6af7;
+      --accent2: #4fc3f7;
+      --text: #e8e8f0;
+      --muted: #7878a0;
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(10,10,15,0.75);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 1.1rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      color: var(--muted); font-size: 0.9rem; text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 120px 48px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 40%, rgba(124,106,247,0.15) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 30% 60%, rgba(79,195,247,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1000px; width: 100%;
+      display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: center;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,106,247,0.12); border: 1px solid rgba(124,106,247,0.3);
+      color: var(--accent); font-size: 0.78rem; font-weight: 500; letter-spacing: .06em;
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 24px;
+    }
+    .hero-tag::before { content: '●'; font-size: .5rem; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 700; line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    h1 span {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 480px; margin-bottom: 36px;
+    }
+    .hero-affil {
+      font-size: 0.88rem; color: var(--muted); margin-bottom: 36px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .hero-affil strong { color: var(--text); }
+    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: 10px;
+      font-size: 0.88rem; font-weight: 500; text-decoration: none;
+      transition: all .2s; cursor: pointer; border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #6254d4);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(124,106,247,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,106,247,0.5); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { background: var(--surface2); border-color: rgba(255,255,255,0.15); }
+
+    .avatar-wrap {
+      position: relative; width: 220px; height: 220px; flex-shrink: 0;
+    }
+    .avatar-wrap::before {
+      content: '';
+      position: absolute; inset: -3px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 50%; z-index: 0;
+    }
+    .avatar-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--accent), var(--accent2), var(--accent));
+      animation: spin 6s linear infinite;
+      opacity: .6; z-index: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .avatar-wrap img {
+      position: relative; z-index: 1;
+      width: 214px; height: 214px;
+      border-radius: 50%; object-fit: cover;
+      margin: 3px;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 80px 48px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+    }
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700; margin-bottom: 40px;
+    }
+
+    /* ── NEWS ── */
+    .news-list { display: flex; flex-direction: column; gap: 0; }
+    .news-item {
+      display: grid; grid-template-columns: 100px 1fr;
+      gap: 24px; align-items: start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .news-date { font-size: 0.82rem; color: var(--muted); padding-top: 3px; }
+    .news-text { font-size: 0.95rem; }
+    .news-text a { color: var(--accent2); text-decoration: none; }
+    .news-text a:hover { text-decoration: underline; }
+    .badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 600;
+      padding: 2px 9px; border-radius: 6px; margin-left: 8px;
+      vertical-align: middle;
+    }
+    .badge-conf { background: rgba(79,195,247,.15); color: var(--accent2); }
+    .badge-award { background: rgba(255,195,0,.12); color: #ffc300; }
+    .badge-new { background: rgba(124,106,247,.2); color: var(--accent); }
+
+    /* ── PUBLICATIONS ── */
+    .pub-list { display: flex; flex-direction: column; gap: 20px; }
+    .pub-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 24px; align-items: start;
+      transition: border-color .2s, transform .2s;
+    }
+    .pub-card:hover { border-color: rgba(124,106,247,.4); transform: translateY(-2px); }
+    .pub-thumb {
+      width: 100px; height: 80px;
+      background: var(--surface2);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: var(--muted);
+      flex-shrink: 0;
+    }
+    .pub-venue {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: .06em;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 6px;
+    }
+    .pub-title { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+    .pub-authors { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
+    .pub-authors strong { color: var(--text); }
+    .pub-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .pub-link {
+      font-size: 0.78rem; font-weight: 500; padding: 4px 12px;
+      border-radius: 6px; border: 1px solid var(--border);
+      color: var(--muted); text-decoration: none;
+      transition: all .15s;
+    }
+    .pub-link:hover { color: var(--text); border-color: rgba(255,255,255,.2); background: var(--surface2); }
+
+    /* ── RESEARCH INTERESTS ── */
+    .interest-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .interest-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      transition: border-color .2s, transform .2s;
+    }
+    .interest-card:hover { border-color: rgba(124,106,247,.4); transform: translateY(-3px); }
+    .interest-icon { font-size: 2rem; margin-bottom: 12px; }
+    .interest-title { font-size: 0.92rem; font-weight: 600; margin-bottom: 6px; }
+    .interest-desc { font-size: 0.8rem; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-text { font-size: 0.85rem; color: var(--muted); }
+    .social-links { display: flex; gap: 16px; }
+    .social-link {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); text-decoration: none; font-size: 0.9rem;
+      transition: all .2s;
+    }
+    .social-link:hover { color: var(--text); border-color: rgba(255,255,255,.2); background: var(--surface2); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { gap: 20px; }
+      .hero { padding: 100px 24px 60px; }
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-inner > div:first-child { order: 2; }
+      .avatar-wrap { order: 1; margin: 0 auto; }
+      .hero-sub, .hero-affil { margin-left: auto; margin-right: auto; }
+      .btn-group { justify-content: center; }
+      section { padding: 60px 24px; }
+      .pub-card { grid-template-columns: 1fr; }
+      .pub-thumb { width: 100%; height: 60px; }
+      footer { flex-direction: column; gap: 20px; padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">TH</span>
+  <div class="nav-links">
+    <a href="#news">News</a>
+    <a href="#publications">Publications</a>
+    <a href="#research">Research</a>
+    <a href="mailto:tarou@cv-lab.ac.jp">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">Computer Vision Researcher</div>
+      <h1>Tarou<br /><span>Hongo</span></h1>
+      <p class="hero-sub">
+        Building systems that see, understand, and reason about the visual world. Interested in 3D vision, generative models, and embodied AI.
+      </p>
+      <div class="hero-affil">
+        <span><strong>Assistant Professor</strong> · Vision &amp; Intelligence Lab</span>
+        <span>The University of Tokyo, Japan</span>
+      </div>
+      <div class="btn-group">
+        <a href="#publications" class="btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Publications
+        </a>
+        <a href="mailto:tarou@cv-lab.ac.jp" class="btn btn-outline">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Contact
+        </a>
+        <a href="#" class="btn btn-outline">Google Scholar</a>
+      </div>
+    </div>
+    <div class="avatar-wrap">
+      <img src="tarou.png" alt="Tarou Hongo" />
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news" style="background: var(--surface);">
+  <div class="container">
+    <div class="section-label">Latest</div>
+    <h2>News</h2>
+    <div class="news-list">
+      <div class="news-item">
+        <span class="news-date">May 2026</span>
+        <span class="news-text">
+          One paper accepted to <strong>CVPR 2026</strong> on generalizable 3D object reconstruction.
+          <span class="badge badge-conf">CVPR</span><span class="badge badge-new">New</span>
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">Apr 2026</span>
+        <span class="news-text">
+          Gave an invited talk at the Tokyo CV Symposium on neural implicit representations.
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">Jan 2026</span>
+        <span class="news-text">
+          Our work on video understanding received the <strong>Best Paper Honorable Mention</strong> at WACV 2026.
+          <span class="badge badge-award">🏆 Award</span>
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">Oct 2025</span>
+        <span class="news-text">
+          Two papers accepted to <strong>NeurIPS 2025</strong>: one on diffusion-based scene synthesis, one on self-supervised depth estimation.
+          <span class="badge badge-conf">NeurIPS</span>
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">Jun 2025</span>
+        <span class="news-text">
+          Started as Assistant Professor at the University of Tokyo Vision &amp; Intelligence Lab.
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="container">
+    <div class="section-label">Selected Works</div>
+    <h2>Publications</h2>
+    <div class="pub-list">
+
+      <div class="pub-card">
+        <div class="pub-thumb">🔬</div>
+        <div>
+          <div class="pub-venue">CVPR 2026</div>
+          <div class="pub-title">Generalizable Zero-Shot 3D Object Reconstruction via Diffusion Priors</div>
+          <div class="pub-authors"><strong>Tarou Hongo</strong>, Kenji Yamada, Sarah Chen, Hiroshi Tanaka</div>
+          <div class="pub-links">
+            <a class="pub-link" href="#">Paper</a>
+            <a class="pub-link" href="#">Code</a>
+            <a class="pub-link" href="#">Project Page</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-thumb">🎬</div>
+        <div>
+          <div class="pub-venue">NeurIPS 2025</div>
+          <div class="pub-title">Compositional Scene Synthesis with Cascaded Latent Diffusion</div>
+          <div class="pub-authors"><strong>Tarou Hongo</strong>, Aiko Sato, Wei Liu</div>
+          <div class="pub-links">
+            <a class="pub-link" href="#">Paper</a>
+            <a class="pub-link" href="#">Code</a>
+            <a class="pub-link" href="#">Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-thumb">📐</div>
+        <div>
+          <div class="pub-venue">NeurIPS 2025</div>
+          <div class="pub-title">Self-Supervised Monocular Depth Estimation via Cross-View Consistency</div>
+          <div class="pub-authors">Riku Mori, <strong>Tarou Hongo</strong>, Yuki Ito, James Park</div>
+          <div class="pub-links">
+            <a class="pub-link" href="#">Paper</a>
+            <a class="pub-link" href="#">Code</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-thumb">🏅</div>
+        <div>
+          <div class="pub-venue">WACV 2026 &nbsp;·&nbsp; Best Paper Honorable Mention</div>
+          <div class="pub-title">Long-Range Temporal Reasoning in Video Transformers</div>
+          <div class="pub-authors"><strong>Tarou Hongo</strong>, Maria Fernandez, Sota Nakamura</div>
+          <div class="pub-links">
+            <a class="pub-link" href="#">Paper</a>
+            <a class="pub-link" href="#">Code</a>
+            <a class="pub-link" href="#">Talk</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH INTERESTS -->
+<section id="research" style="background: var(--surface);">
+  <div class="container">
+    <div class="section-label">Topics</div>
+    <h2>Research Interests</h2>
+    <div class="interest-grid">
+      <div class="interest-card">
+        <div class="interest-icon">🧊</div>
+        <div class="interest-title">3D Vision</div>
+        <div class="interest-desc">Neural radiance fields, implicit surfaces, multi-view reconstruction</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">🎨</div>
+        <div class="interest-title">Generative Models</div>
+        <div class="interest-desc">Diffusion models, GANs, controllable image &amp; scene synthesis</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">🎞️</div>
+        <div class="interest-title">Video Understanding</div>
+        <div class="interest-desc">Temporal reasoning, action recognition, long-form video analysis</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">🤖</div>
+        <div class="interest-title">Embodied AI</div>
+        <div class="interest-desc">Vision for robotics, scene understanding, sim-to-real transfer</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">🔍</div>
+        <div class="interest-title">Self-Supervised Learning</div>
+        <div class="interest-desc">Representation learning without labels, contrastive &amp; masked methods</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">🌐</div>
+        <div class="interest-title">3D Scene Generation</div>
+        <div class="interest-desc">World models, indoor &amp; outdoor scene synthesis at scale</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-text">Tarou Hongo · Vision &amp; Intelligence Lab, The University of Tokyo</div>
+    <div class="footer-text" style="margin-top:4px">tarou@cv-lab.ac.jp</div>
+  </div>
+  <div class="social-links">
+    <a href="#" class="social-link" title="Google Scholar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
+    </a>
+    <a href="#" class="social-link" title="GitHub">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+    </a>
+    <a href="#" class="social-link" title="Twitter / X">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a href="mailto:tarou@cv-lab.ac.jp" class="social-link" title="Email">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+  </div>
+</footer>
+
+</body>
 </html>
