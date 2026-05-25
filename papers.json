@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Very Nice Transformer",
+    "author": "Taro Hongo and Ryo Yonetani",
+    "conf": "ICML 2026",
+    "paper_url": "#",
+    "code_url": "#"
+  },
+  {
+    "title": "Super strong ResNet",
+    "author": "Taro Hongo and Fuga Piyo",
+    "conf": "CVPR 2026",
+    "paper_url": "#",
+    "code_url": "#"
+  }
+]
